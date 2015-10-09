@@ -195,7 +195,7 @@ int GetMessageFromFile(char *szBuf, int iLen)
 			for (b=0;b<100;b++)
 				random = RandRange(1, max);
 
-	printf("%d   ", random);
+	printf("%8d", random);
 	messages[messageTracker] = random;
 
 //Reset file pointer
