@@ -203,6 +203,8 @@ int GetMessageFromFile(char *szBuf, int iLen)
 	fclose(fptr);
 	fptr = fopen(fileloc, "r");
 
+	i = NULL;
+
 //Find associated message in file (associated with random number just generated)
 //'find' (variable below) used to track number of %%'s passed so far
 
@@ -212,11 +214,13 @@ int GetMessageFromFile(char *szBuf, int iLen)
 		{
 			i = getc(fptr);
 
-			if (i == '%'){
+			if (i == '%')
 				i = getc(fptr); 
-				if (i == '%')
+				if (i == '%') {
 					find++;
-			}
+					i = getc(fptr);
+				}
+			
 		}
 	} 
 
@@ -227,8 +231,13 @@ int GetMessageFromFile(char *szBuf, int iLen)
 			szBuf[a]=i;	
 			i = getc(fptr);
 		}
-		else 
-			a=iLen;		
+		else {
+			i = getc(fptr);
+			if (i == '%')
+				a=iLen;
+			else
+				szBuf[a] = '%';
+		}
 	} 
 
 //Close file and terminate string
